@@ -20,7 +20,7 @@ public class UserProfileService {
         profile.setAge(data.getAge());
         profile.setGender(data.getGender());
         profile.setBloodGroup(data.getBloodGroup());
-
+        profile.setAddress(data.getAddress());
         return profileRepository.save(profile);
     }
 

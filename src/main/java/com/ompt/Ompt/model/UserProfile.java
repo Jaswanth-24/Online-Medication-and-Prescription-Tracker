@@ -32,4 +32,7 @@ public class UserProfile {
 
     @Column(nullable = false)
     private String bloodGroup;
+
+    @Column(nullable = false)
+    private String address;
 }
