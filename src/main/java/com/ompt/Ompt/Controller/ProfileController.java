@@ -25,4 +25,5 @@ public class ProfileController {
 
         return userProfileService.saveOrUpdateProfile(user, userProfile);
     }
+
 }

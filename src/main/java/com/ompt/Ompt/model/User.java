@@ -3,6 +3,8 @@ package com.ompt.Ompt.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +30,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    private String resetTokenHash;
+    private LocalDateTime resetTokenExpiry;
+
 
 }

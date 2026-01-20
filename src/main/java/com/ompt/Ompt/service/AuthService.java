@@ -10,6 +10,9 @@ import com.ompt.Ompt.repository.UserRepository;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 
 @Service
 @AllArgsConstructor
@@ -35,5 +38,33 @@ public class AuthService {
             throw new BadCredentialsException("Invalid Password");
         }
         return user;
+    }
+
+    public void forgotPassword(String email){
+        userrepo.findByEmail(email).ifPresent(user -> {
+            String token= UUID.randomUUID().toString();
+            user.setResetTokenHash(passwordEncoder.encode(token));
+            user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(15));
+            userrepo.save(user);
+            System.out.println("Reset Link: http://localhost:8080/reset-password?token="+token);
+        });
+    }
+
+    public void resetPassword(String token, String newPassword) {
+        User user=userrepo
+                .findAll()
+                .stream()
+                .filter(u->u.getResetTokenHash()!=null)
+                .filter(u-> passwordEncoder.matches(token,u.getResetTokenHash()))
+                .findFirst()
+                .orElseThrow(()->new IllegalStateException("Invalid or Expired Token")
+                );
+        if(user.getResetTokenExpiry().isBefore(LocalDateTime.now())){
+            throw new IllegalStateException("Token Expired");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetTokenHash(null);
+        user.setResetTokenExpiry(null);
+        userrepo.save(user);
     }
 }
