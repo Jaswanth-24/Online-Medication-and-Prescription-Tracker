@@ -21,6 +21,7 @@ public class AuthService {
     
     private final UserRepository userrepo;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     
 
@@ -46,7 +47,7 @@ public class AuthService {
             user.setResetTokenHash(passwordEncoder.encode(token));
             user.setResetTokenExpiry(LocalDateTime.now().plusMinutes(15));
             userrepo.save(user);
-            System.out.println("Reset Link: http://localhost:8080/reset-password?token="+token);
+            emailService.sendResetPasswordEmail(user.getEmail(),token);
         });
     }
 

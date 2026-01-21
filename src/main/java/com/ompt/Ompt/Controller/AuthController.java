@@ -23,12 +23,13 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
 
-
+    //user register
     @PostMapping("/register")
     public User register(@RequestBody User user) throws Exception{
         return authService.register(user);
     }
 
+    //user login
     @PostMapping("/login")
     public Map<String,String> login(@RequestBody Map<String,String> req) throws Exception{
         User user=authService.login(req.get("email"), req.get("password"));
@@ -38,15 +39,19 @@ public class AuthController {
         
     }
 
+    //forgot password
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody AuthRequestDTO request){
         authService.forgotPassword(request.getEmail());
         return ResponseEntity.ok("If email exists, reset link sent");
     }
 
+    //reset password
     @PostMapping("/reset-password")
     public  ResponseEntity<String> resetPassword(@RequestBody AuthRequestDTO request){
         authService.resetPassword(request.getToken(),request.getNewPassword());
         return ResponseEntity.ok("Password Reset Succesful");
     }
+
+
 }
