@@ -1,7 +1,7 @@
 package com.ompt.Ompt.Controller;
 
-import com.ompt.Ompt.DTO.OrganizationRegisterRequest;
-import com.ompt.Ompt.DTO.OrganizationResponse;
+import com.ompt.Ompt.DTO.HospitalRegisterDTO;
+import com.ompt.Ompt.DTO.HospitalResponse;
 import com.ompt.Ompt.service.HospitalService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @Getter
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/organizations")
-public class OrganizationController {
+@RequestMapping("/api/hospitals")
+public class HospitalController {
 
     private final HospitalService hospitalService;
 
     @PostMapping("/register")
-    public ResponseEntity<OrganizationResponse> register(
-            @Valid @RequestBody OrganizationRegisterRequest request
+    public ResponseEntity<HospitalResponse> register(
+            @Valid @RequestBody HospitalRegisterDTO request
     ) {
-        OrganizationResponse response =
+        HospitalResponse response =
                 hospitalService.registerHospital(request);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);

@@ -1,11 +1,12 @@
 package com.ompt.Ompt.service;
 
-import com.ompt.Ompt.DTO.OrganizationRegisterRequest;
-import com.ompt.Ompt.DTO.OrganizationResponse;
-import com.ompt.Ompt.model.Hospitals;
+import com.ompt.Ompt.DTO.HospitalRegisterDTO;
+import com.ompt.Ompt.DTO.HospitalResponse;
+import com.ompt.Ompt.model.AccountStatus;
+import com.ompt.Ompt.model.Hospital;
 import com.ompt.Ompt.model.Role;
 import com.ompt.Ompt.model.User;
-import com.ompt.Ompt.repository.OrganizationRepository;
+import com.ompt.Ompt.repository.HospitalRepository;
 import com.ompt.Ompt.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,43 +15,44 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
-public class OrganizationService {
+public class HospitalService {
 
-    private final OrganizationRepository organizationRepository;
+    private final HospitalRepository hospitalRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final  UserRepository userrepo;
 
 
-    //Hospitals Registration Service
+    //Hospital Registration Service
     @Transactional
-    public OrganizationResponse registerOrganization(OrganizationRegisterRequest request) {
+    public HospitalResponse registerHospital(HospitalRegisterDTO request) {
 
-        organizationRepository.findByName(request.getOrganizationName())
+        hospitalRepository.findByNameIgnoreCase(request.getHospitalName())
                 .ifPresent(o -> {
-                    throw new IllegalArgumentException("Hospitals already exists");
+                    throw new IllegalArgumentException("Hospital already exists");
                 });
-        organizationRepository.findByName(request.getEmail())
+        hospitalRepository.findByNameIgnoreCase(request.getEmail())
                 .ifPresent(o -> {
                     throw new IllegalArgumentException("Email already exists");
                 });
 
-        Hospitals hospitals = new Hospitals();
-        hospitals.setName(request.getOrganizationName());
+        Hospital hospital = new Hospital();
+        hospital.setName(request.getHospitalName());
 
-        Hospitals savedHospitals = organizationRepository.save(hospitals);
+        Hospital savedHospital = hospitalRepository.save(hospital);
 
         User user = new User();
         user.setName(request.getAdminName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.ADMIN);
-        user.setHospitals(savedHospitals);
+        user.setStatus(AccountStatus.ACTIVE);
+        user.setHospital(savedHospital);
         userrepo.save(user);
 
-        return new OrganizationResponse(
-                savedHospitals.getId(),
-                savedHospitals.getName(),
-                savedHospitals.isActive()
+        return new HospitalResponse(
+                savedHospital.getId(),
+                savedHospital.getName(),
+                savedHospital.isActive()
 
         );
     }

@@ -22,8 +22,7 @@ public class AdminDoctorController {
             @Valid @RequestBody DoctorRegisterRequestDTO request,
             Authentication authentication
     ) {
-        DoctorResponseDTO response =
-                adminDoctorService.registerDoctor(request, authentication);
+        DoctorResponseDTO response = adminDoctorService.registerDoctor(request, authentication);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

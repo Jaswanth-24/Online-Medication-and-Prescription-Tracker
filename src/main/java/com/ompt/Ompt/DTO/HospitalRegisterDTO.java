@@ -1,6 +1,5 @@
 package com.ompt.Ompt.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 
-public class OrganizationRegisterRequest {
+public class HospitalRegisterDTO {
 
-    @NotBlank(message = "Hospitals name is required")
-    private String organizationName;
+    @NotBlank(message = "Hospital name is required")
+    private String hospitalName;
 
     @NotBlank(message = "Admin name is required")
     private String adminName;

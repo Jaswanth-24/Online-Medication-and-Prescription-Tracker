@@ -25,4 +25,22 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendDoctorWelcomeMail(String email, String hospital, String token) {
+        String link = resetBaseUrl + "/set-password?token=" + token;
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Doctor Account Created");
+        message.setText("""
+        Your doctor account has been created for %s.
+
+        Please set your password using the link below:
+        %s
+
+        Link valid for 24 hours.
+        """.formatted(hospital, link));
+
+        mailSender.send(message);
+    }
+
 }

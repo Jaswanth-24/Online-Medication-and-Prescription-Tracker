@@ -1,3 +1,19 @@
 package com.ompt.Ompt.DTO;
 
-0f2173ad-c6df-4c1a-8153-5548a40b8b95
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SetPasswordRequestDTO {
+
+    @NotBlank(message = "Token is required")
+    private String token;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String newPassword;
+}

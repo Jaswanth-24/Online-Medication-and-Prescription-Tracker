@@ -29,13 +29,13 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",
+                                "/auth/**",
+                                "/api/hospitals/register",
                                 "/h2-console/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
-                        .requestMatchers("/api/patient/**")
-                        .hasAnyAuthority("PATIENT","DOCTOR","ADMIN")
+                        .requestMatchers("/api/patient/**").hasRole("PATIENT")
                         .anyRequest().authenticated()
                 )
 

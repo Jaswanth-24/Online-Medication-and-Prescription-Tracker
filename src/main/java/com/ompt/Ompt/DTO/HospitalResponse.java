@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class OrganizationResponse {
+public class HospitalResponse {
 
     private Long id;
     private String name;

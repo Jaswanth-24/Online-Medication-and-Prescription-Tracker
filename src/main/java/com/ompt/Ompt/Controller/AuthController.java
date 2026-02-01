@@ -1,9 +1,10 @@
 package com.ompt.Ompt.Controller;
 
-import java.util.Map;
 
-import com.ompt.Ompt.DTO.AuthRequestDTO;
+import com.ompt.Ompt.DTO.*;
 import com.ompt.Ompt.Util.JwtUtil;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ import com.ompt.Ompt.service.AuthService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
 
@@ -25,33 +26,42 @@ public class AuthController {
 
     //user register
     @PostMapping("/register")
-    public User register(@RequestBody User user) throws Exception{
-        return authService.register(user);
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO request) {
+        authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //user login
     @PostMapping("/login")
-    public Map<String,String> login(@RequestBody Map<String,String> req) throws Exception{
-        User user=authService.login(req.get("email"), req.get("password"));
-
-        String token=jwtUtil.generateToken(user.getEmail(),user.getRole());
-        return Map.of("message","Login Successfull","name",user.getName(),"role",user.getRole(),"token",token);
-        
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
+        User user = authService.login(request.getEmail(), request.getPassword());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     //forgot password
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody AuthRequestDTO request){
+    public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordDTO request) {
         authService.forgotPassword(request.getEmail());
-        return ResponseEntity.ok("If email exists, reset link sent");
+        return ResponseEntity.ok().build();
     }
 
     //reset password
     @PostMapping("/reset-password")
-    public  ResponseEntity<String> resetPassword(@RequestBody AuthRequestDTO request){
-        authService.resetPassword(request.getToken(),request.getNewPassword());
-        return ResponseEntity.ok("Password Reset Succesful");
+    public ResponseEntity<Void> resetPassword(@Valid @RequestBody ResetPasswordDTO request) {
+        authService.resetPassword(request.getToken(), request.getNewPassword());
+        return ResponseEntity.ok().build();
     }
 
-
+    @PostMapping("/set-password")
+    public ResponseEntity<Void> setPassword(
+            @Valid @RequestBody SetPasswordRequestDTO request
+    ) {
+        authService.setPassword(
+                request.getToken(),
+                request.getNewPassword()
+        );
+        return ResponseEntity.ok().build();
+    }
 }
+

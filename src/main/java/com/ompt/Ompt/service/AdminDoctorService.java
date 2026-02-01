@@ -2,12 +2,13 @@ package com.ompt.Ompt.service;
 
 import com.ompt.Ompt.DTO.DoctorRegisterRequestDTO;
 import com.ompt.Ompt.DTO.DoctorResponseDTO;
-import com.ompt.Ompt.model.Hospitals;
+import com.ompt.Ompt.model.AccountStatus;
 import com.ompt.Ompt.model.Role;
 import com.ompt.Ompt.model.User;
 import com.ompt.Ompt.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class AdminDoctorService {
 
     private final UserRepository userRepository;
     private final EmailService emailService;
-
+    private final PasswordEncoder passwordEncoder;
     public DoctorResponseDTO registerDoctor(
             DoctorRegisterRequestDTO request,
             Authentication authentication
@@ -38,19 +39,21 @@ public class AdminDoctorService {
 
         User doctor = new User();
         doctor.setName(request.getName());
+        doctor.setStatus(AccountStatus.PENDING);
         doctor.setEmail(request.getEmail().toLowerCase());
+        doctor.setPassword(null);
         doctor.setRole(Role.DOCTOR);
-        doctor.setHospitals(admin.getHospitals());
+        doctor.setHospital(admin.getHospital());
 
         String token = UUID.randomUUID().toString();
-        doctor.setResetTokenHash(token); // hash if needed
+        doctor.setResetTokenHash(passwordEncoder.encode(token));
         doctor.setResetTokenExpiry(LocalDateTime.now().plusHours(24));
 
         userRepository.save(doctor);
 
         emailService.sendDoctorWelcomeMail(
                 doctor.getEmail(),
-                admin.getHospitals().getName(),
+                admin.getHospital().getName(),
                 token
         );
 
@@ -58,7 +61,7 @@ public class AdminDoctorService {
                 doctor.getId(),
                 doctor.getName(),
                 doctor.getEmail(),
-                admin.getHospitals().getName(),
+                admin.getHospital().getName(),
                 true
         );
     }
