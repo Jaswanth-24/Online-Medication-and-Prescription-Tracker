@@ -1,5 +1,6 @@
 package com.ompt.Ompt.config;
 
+import com.ompt.Ompt.model.Role;
 import com.ompt.Ompt.security.JwtAuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,9 +34,9 @@ public class SecurityConfig {
                                 "/api/hospitals/register",
                                 "/h2-console/**"
                         ).permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
-                        .requestMatchers("/api/patient/**").hasRole("PATIENT")
+                        .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.toString())
+                        .requestMatchers("/api/doctor/**").hasRole(Role.DOCTOR.toString())
+                        .requestMatchers("/api/patient/**").hasRole(Role.PATIENT.toString())
                         .anyRequest().authenticated()
                 )
 

@@ -16,4 +16,5 @@ public class DoctorRegisterRequestDTO {
     @Email
     @NotBlank
     private String email;
+
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/profile")
 @AllArgsConstructor
-public class ProfileController {
+public class PatientProfileController {
 
     private final UserRepository userRepository;
     private final UserProfileService userProfileService;
