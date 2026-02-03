@@ -17,7 +17,7 @@ import com.ompt.Ompt.service.AuthService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @AllArgsConstructor
 public class AuthController {
 
