@@ -1,4 +1,4 @@
 package com.ompt.Ompt.model;
 
-public class UserProfile {
+public class InventoryItem {
 }

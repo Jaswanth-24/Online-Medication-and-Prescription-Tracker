@@ -1,4 +1,4 @@
 package com.ompt.Ompt.service;
 
-public class UserProfileService {
+public class UserService {
 }

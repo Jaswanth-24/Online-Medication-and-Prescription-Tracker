@@ -1,4 +1,4 @@
 package com.ompt.Ompt.repository;
 
-public class UserProfileRepository {
+public class PharmacyRepository {
 }
