@@ -1,4 +1,7 @@
-package com.ompt.Ompt.repository;
+ package com.ompt.Ompt.repository;
 
-public class MedicineMasterRepository {
+import com.ompt.Ompt.model.MedicineMaster;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MedicineMasterRepository extends JpaRepository<MedicineMaster, Long> {
 }

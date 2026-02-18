@@ -1,21 +1,27 @@
 package com.ompt.Ompt.DTO;
 
-import lombok.*;
-
 import java.util.List;
 
+import lombok.*;
+
+
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class DoctorProfileResponseDTO {
 
     private Long doctorId;
-    private String name;
+    private String fullName;
     private String email;
-    private Integer yearsOfExperience;
-    private String licenseNumber;
-    private boolean profileCompleted;
+    private String phone;
 
-    private List<SpecializationDTO> specializations;
+    private String department;
+    private String designation;
+    private Integer yearsOfExperience;
+
+    private String licenseNumber;
+
     private List<DoctorDegreeDTO> degrees;
+    private List<String> specializations;
+
+    private Long hospitalId;
+    private String hospitalName;
 }

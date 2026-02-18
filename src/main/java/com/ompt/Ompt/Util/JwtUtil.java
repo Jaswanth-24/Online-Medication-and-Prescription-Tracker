@@ -1,6 +1,5 @@
 package com.ompt.Ompt.Util;
 
-import com.ompt.Ompt.security.JwtUserPrincipal;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,18 +20,15 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(Long userId, String email, String role) {
+    public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
-                .claim("userId", userId)
-                .claim("email", email)
-                .claim("role", role)
+                .claim("role","Role_"+role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
 
     public String extractEmail(String token) {
         return Jwts.parserBuilder()
@@ -54,20 +50,4 @@ public class JwtUtil {
             return false;
         }
     }
-
-    public JwtUserPrincipal getPrincipal(String token) {
-
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-
-        return new JwtUserPrincipal(
-                claims.get("userId", Long.class),
-                claims.get("email", String.class),
-                claims.get("role", String.class)
-        );
-    }
-
 }

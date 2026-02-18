@@ -3,6 +3,7 @@ package com.ompt.Ompt.DTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -25,6 +26,8 @@ public class RegisterRequestDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
 
-    @NotBlank(message = "Hospital is required")
-    private String hospitalName;
+    @NotNull(message = "Hospital is required")
+    private Long hospitalId;
+
+    private Long doctorAssignedId;
 }

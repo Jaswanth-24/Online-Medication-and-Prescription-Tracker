@@ -2,19 +2,15 @@ package com.ompt.Ompt.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "doctors")
+
 @Getter
 @Setter
-@NoArgsConstructor
+@Entity
+@Table(name = "doctors")
 public class Doctor {
 
     @Id
@@ -26,24 +22,40 @@ public class Doctor {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hospital_id", nullable = false)
+    @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
+    @Column(name = "rating_total")
+    private double ratingTotal;
+
+    @Column(name = "rating_count")
+    private int ratingCount;
+
+    @Column(name = "rating")
+    private double rating;
+
+    // Personal
+    private String employeeId;
+    private LocalDate dob;
+    private String gender;
+    private String phone;
+    private String address;
+    private String emergencyContact;
+
+    // Employment
+    private String department;
+    private String designation;
+    private String employmentType;
+    private LocalDate dateOfJoining;
     private Integer yearsOfExperience;
+    private String reportingManager;
 
-    @Column(unique = true)
+    // Licensing
     private String licenseNumber;
+    private LocalDate licenseValidUntil;
 
-    @Column(nullable = false)
-    private boolean profileCompleted = false;
+    // Status
+    private boolean profileCompleted;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<DoctorSpecialization> specializations = new ArrayList<>();
-
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<DoctorDegree> degrees = new ArrayList<>();
-
-
-    private LocalDateTime activatedAt;
 
 }

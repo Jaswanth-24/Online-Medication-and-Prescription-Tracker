@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserProfile {
+public class PatientProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class UserProfile {
     private String gender;
 
     @Column
-    private Integer age;   // Integer, NOT int
+    private Integer age;
 
     @Column(length = 10)
     private String phoneNumber;

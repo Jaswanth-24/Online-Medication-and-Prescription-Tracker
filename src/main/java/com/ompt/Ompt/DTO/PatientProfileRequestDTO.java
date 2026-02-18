@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PatientProfileRequest {
+public class PatientProfileRequestDTO {
 
     @NotBlank
     private String patientName;

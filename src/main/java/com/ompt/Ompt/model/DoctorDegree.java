@@ -3,10 +3,12 @@ package com.ompt.Ompt.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "doctor_degrees")
-@Getter @Setter
-@NoArgsConstructor
 public class DoctorDegree {
 
     @Id
@@ -14,14 +16,10 @@ public class DoctorDegree {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(nullable = false)
     private String degreeName;
-
-    @Column(nullable = false)
     private String institution;
-
     private Integer yearCompleted;
 }
+
