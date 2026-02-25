@@ -9,21 +9,16 @@ import lombok.Setter;
 @Setter
 public class UserProfileRequestDTO {
 
-    @NotBlank
-    private String patientName;
+  @NotBlank private String patientName;
 
-    @NotBlank
-    private String gender;
+  @NotBlank private String gender;
 
-    @Min(0)
-    private Integer age;
+  @Min(0)
+  private Integer age;
 
-    @NotBlank
-    private String phoneNumber;
+  @NotBlank private String phoneNumber;
 
-    @NotBlank
-    private String bloodGroup;
+  @NotBlank private String bloodGroup;
 
-    @NotBlank
-    private String address;
+  @NotBlank private String address;
 }

@@ -16,20 +16,21 @@ import org.springframework.web.server.ResponseStatusException;
 @AllArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @GetMapping("/me")
-    public UserMeDTO getMe(Authentication authentication) {
-        User user = userRepository.findByEmailIgnoreCase(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+  @GetMapping("/me")
+  public UserMeDTO getMe(Authentication authentication) {
+    User user =
+        userRepository
+            .findByEmailIgnoreCase(authentication.getName())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        return new UserMeDTO(
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getRole().name(),
-                user.getHospital().getId(),
-                user.getHospital().getName()
-        );
-    }
+    return new UserMeDTO(
+        user.getId(),
+        user.getName(),
+        user.getEmail(),
+        user.getRole().name(),
+        user.getHospital().getId(),
+        user.getHospital().getName());
+  }
 }

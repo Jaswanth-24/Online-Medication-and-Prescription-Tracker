@@ -14,10 +14,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DoctorRatingRequestDTO {
 
-    @NotNull(message = "Rating is required")
-    @Min(value = 1, message = "Rating must be at least 1")
-    @Max(value = 5, message = "Rating cannot exceed 5")
-    private Integer rating;
+  @NotNull(message = "Rating is required")
+  @Min(value = 1, message = "Rating must be at least 1")
+  @Max(value = 5, message = "Rating cannot exceed 5")
+  private Integer rating;
 
-    private Long doctorId;
+  private Long doctorId;
 }

@@ -17,43 +17,42 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class HospitalService {
 
-    private final HospitalRepository hospitalRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final  UserRepository userrepo;
+  private final HospitalRepository hospitalRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
+  private final UserRepository userrepo;
 
+  // Hospital Registration Service
+  @Transactional
+  public HospitalResponse registerHospital(HospitalRegisterDTO request) {
 
-    //Hospital Registration Service
-    @Transactional
-    public HospitalResponse registerHospital(HospitalRegisterDTO request) {
+    hospitalRepository
+        .findByNameIgnoreCase(request.getHospitalName())
+        .ifPresent(
+            o -> {
+              throw new IllegalArgumentException("Hospital already exists");
+            });
+    hospitalRepository
+        .findByNameIgnoreCase(request.getEmail())
+        .ifPresent(
+            o -> {
+              throw new IllegalArgumentException("Email already exists");
+            });
 
-        hospitalRepository.findByNameIgnoreCase(request.getHospitalName())
-                .ifPresent(o -> {
-                    throw new IllegalArgumentException("Hospital already exists");
-                });
-        hospitalRepository.findByNameIgnoreCase(request.getEmail())
-                .ifPresent(o -> {
-                    throw new IllegalArgumentException("Email already exists");
-                });
+    Hospital hospital = new Hospital();
+    hospital.setName(request.getHospitalName());
 
-        Hospital hospital = new Hospital();
-        hospital.setName(request.getHospitalName());
+    Hospital savedHospital = hospitalRepository.save(hospital);
 
-        Hospital savedHospital = hospitalRepository.save(hospital);
+    User user = new User();
+    user.setName(request.getAdminName());
+    user.setEmail(request.getEmail());
+    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setRole(Role.ADMIN);
+    user.setStatus(AccountStatus.ACTIVE);
+    user.setHospital(savedHospital);
+    userrepo.save(user);
 
-        User user = new User();
-        user.setName(request.getAdminName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.ADMIN);
-        user.setStatus(AccountStatus.ACTIVE);
-        user.setHospital(savedHospital);
-        userrepo.save(user);
-
-        return new HospitalResponse(
-                savedHospital.getId(),
-                savedHospital.getName(),
-                savedHospital.isActive()
-
-        );
-    }
+    return new HospitalResponse(
+        savedHospital.getId(), savedHospital.getName(), savedHospital.isActive());
+  }
 }

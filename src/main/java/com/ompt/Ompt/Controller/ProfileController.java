@@ -2,7 +2,6 @@ package com.ompt.Ompt.Controller;
 
 import com.ompt.Ompt.DTO.UserProfileRequestDTO;
 import com.ompt.Ompt.service.UserProfileService;
-
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,17 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class ProfileController {
 
-    private final UserProfileService userProfileService;
+  private final UserProfileService userProfileService;
 
-    @PostMapping("/patient-profile")
-    public ResponseEntity<Void> saveProfile(
-            @Valid @RequestBody UserProfileRequestDTO request,
-            Authentication authentication) {
+  @PostMapping("/patient-profile")
+  public ResponseEntity<Void> saveProfile(
+      @Valid @RequestBody UserProfileRequestDTO request, Authentication authentication) {
 
-        String email = authentication.getName();
-        userProfileService.saveProfile(email, request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-
+    String email = authentication.getName();
+    userProfileService.saveProfile(email, request);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
 }

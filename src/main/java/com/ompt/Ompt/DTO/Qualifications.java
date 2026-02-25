@@ -4,10 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class Qualifications {
-    private String specialization;
+  private String specialization;
 
-    public Qualifications(String specialization) {
-        this.specialization = specialization;
-    }
-
+  public Qualifications(String specialization) {
+    this.specialization = specialization;
+  }
 }

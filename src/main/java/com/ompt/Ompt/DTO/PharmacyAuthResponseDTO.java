@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class PharmacyAuthResponseDTO {
-    private String token;
-    private PharmacyProfileDTO pharmacy;
+  private String token;
+  private PharmacyProfileDTO pharmacy;
 }

@@ -9,14 +9,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class PharmacyAvailabilityDTO {
-    private Long inventoryItemId;
-    private String medicineName;
-    private String dosage;
-    private int quantity;
-    private Double price;
-    private Long pharmacyId;
-    private String pharmacyName;
-    private String pharmacyLocation;
+  private Long inventoryItemId;
+  private String medicineName;
+  private String dosage;
+  private int quantity;
+  private Double price;
+  private Long pharmacyId;
+  private String pharmacyName;
+  private String pharmacyLocation;
 }

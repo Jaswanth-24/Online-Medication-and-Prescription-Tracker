@@ -16,17 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/hospitals")
 public class HospitalController {
 
-    private final HospitalService hospitalService;
+  private final HospitalService hospitalService;
 
-    @PostMapping("/register")
-    public ResponseEntity<HospitalResponse> register(
-            @Valid @RequestBody HospitalRegisterDTO request
-    ) {
-        HospitalResponse response =
-                hospitalService.registerHospital(request);
+  @PostMapping("/register")
+  public ResponseEntity<HospitalResponse> register(
+      @Valid @RequestBody HospitalRegisterDTO request) {
+    HospitalResponse response = hospitalService.registerHospital(request);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
+  }
 }

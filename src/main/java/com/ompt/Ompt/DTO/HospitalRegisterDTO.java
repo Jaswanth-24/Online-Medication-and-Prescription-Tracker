@@ -8,21 +8,19 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-
-
 public class HospitalRegisterDTO {
 
-    @NotBlank(message = "Hospital name is required")
-    private String hospitalName;
+  @NotBlank(message = "Hospital name is required")
+  private String hospitalName;
 
-    @NotBlank(message = "Admin name is required")
-    private String adminName;
+  @NotBlank(message = "Admin name is required")
+  private String adminName;
 
-    @Email(message = "Invalid email")
-    @NotBlank(message = "Email is required")
-    private String  email;
+  @Email(message = "Invalid email")
+  @NotBlank(message = "Email is required")
+  private String email;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, message = "Password must be at least 8 characters")
-    private String password;
+  @NotBlank(message = "Password is required")
+  @Size(min = 8, message = "Password must be at least 8 characters")
+  private String password;
 }

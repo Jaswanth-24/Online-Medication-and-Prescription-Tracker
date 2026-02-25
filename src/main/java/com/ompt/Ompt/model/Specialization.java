@@ -19,13 +19,13 @@ import lombok.Setter;
 @Table(name = "Specialization")
 public class Specialization {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String name;
+  @Column(nullable = false, unique = true, length = 100)
+  private String name;
 
-    @Column(length = 255)
-    private String description;
+  @Column(length = 255)
+  private String description;
 }

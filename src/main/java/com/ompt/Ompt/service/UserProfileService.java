@@ -11,30 +11,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-
 public class UserProfileService {
-    private final UserRepository userRepository;
-    private final UserProfileRepository profileRepository;
+  private final UserRepository userRepository;
+  private final UserProfileRepository profileRepository;
 
-    public void saveProfile(String email, UserProfileRequestDTO request) {
+  public void saveProfile(String email, UserProfileRequestDTO request) {
 
-        User user = userRepository.findByEmailIgnoreCase(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    User user =
+        userRepository
+            .findByEmailIgnoreCase(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        UserProfile profile = profileRepository
-                .findByUser(user)
-                .orElse(new UserProfile());
+    UserProfile profile = profileRepository.findByUser(user).orElse(new UserProfile());
 
-        profile.setUser(user);
-        profile.setPatientName(request.getPatientName());
-        profile.setGender(request.getGender());
-        profile.setAge(request.getAge());
-        profile.setPhoneNumber(request.getPhoneNumber());
-        profile.setBloodGroup(request.getBloodGroup());
-        profile.setAddress(request.getAddress());
+    profile.setUser(user);
+    profile.setPatientName(request.getPatientName());
+    profile.setGender(request.getGender());
+    profile.setAge(request.getAge());
+    profile.setPhoneNumber(request.getPhoneNumber());
+    profile.setBloodGroup(request.getBloodGroup());
+    profile.setAddress(request.getAddress());
 
-        profileRepository.save(profile);
-    }
-
-
+    profileRepository.save(profile);
+  }
 }

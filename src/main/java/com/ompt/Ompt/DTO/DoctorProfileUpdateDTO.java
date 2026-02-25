@@ -1,24 +1,29 @@
 package com.ompt.Ompt.DTO;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
 
-import java.util.List;
 
-@Data
+import java.time.LocalDate;
+
+import lombok.*;
+
+@Getter
+@Setter
+
+@AllArgsConstructor
 public class DoctorProfileUpdateDTO {
 
-    @Min(0)
-    private Integer yearsOfExperience;
+  // Personal
+  private LocalDate dob;
+  private String gender;
+  private String phone;
+  private String address;
+  private String emergencyContact;
 
-    @NotBlank
-    private String licenseNumber;
+  // Employment
+  private String designation;
+  private Integer yearsOfExperience;
+  private LocalDate dateOfJoining;
 
-    @NotEmpty
-    private List<Long> specializationIds;
-
-    @NotEmpty
-    private List<DoctorDegreeDTO> degrees;
+  // Licensing
+  private String licenseNumber;
 }

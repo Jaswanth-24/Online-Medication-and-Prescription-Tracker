@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliveryStatusUpdateDTO {
-    @NotBlank(message = "Status is required")
-    private String status;
+  @NotBlank(message = "Status is required")
+  private String status;
 }

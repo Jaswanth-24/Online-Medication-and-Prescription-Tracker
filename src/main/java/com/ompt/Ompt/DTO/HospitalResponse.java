@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class HospitalResponse {
 
-    private Long id;
-    private String name;
-    private boolean active;
-
+  private Long id;
+  private String name;
+  private boolean active;
 }

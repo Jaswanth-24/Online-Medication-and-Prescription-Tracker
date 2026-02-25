@@ -10,8 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PharmacyProfileDTO {
-    private Long id;
-    private String pharmacyName;
-    private String location;
-    private String email;
+  private Long id;
+  private String pharmacyName;
+  private String location;
+  private String email;
 }

@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class VerifyResetCodeDTO {
 
-    @NotBlank(message = "email is required")
-    @Email(message = "Invalid email")
-    private String email;
+  @NotBlank(message = "email is required")
+  @Email(message = "Invalid email")
+  private String email;
 
-    @NotBlank(message = "Verification code is required")
-    private String code;
+  @NotBlank(message = "Verification code is required")
+  private String code;
 }

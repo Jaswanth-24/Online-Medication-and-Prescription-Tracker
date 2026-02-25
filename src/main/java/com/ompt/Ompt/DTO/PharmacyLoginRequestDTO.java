@@ -13,10 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PharmacyLoginRequestDTO {
 
-    @NotBlank(message = "email is required")
-    @Email(message = "Invalid email")
-    private String email;
+  @NotBlank(message = "email is required")
+  @Email(message = "Invalid email")
+  private String email;
 
-    @NotBlank(message = "Password is required")
-    private String password;
+  @NotBlank(message = "Password is required")
+  private String password;
 }

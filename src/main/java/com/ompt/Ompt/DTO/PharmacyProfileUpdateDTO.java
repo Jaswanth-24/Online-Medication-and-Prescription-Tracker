@@ -13,13 +13,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PharmacyProfileUpdateDTO {
 
-    @NotBlank(message = "Pharmacy name is required")
-    private String pharmacyName;
+  @NotBlank(message = "Pharmacy name is required")
+  private String pharmacyName;
 
-    @NotBlank(message = "Location is required")
-    private String location;
+  @NotBlank(message = "Location is required")
+  private String location;
 
-    @NotBlank(message = "email is required")
-    @Email(message = "Invalid email")
-    private String email;
+  @NotBlank(message = "email is required")
+  @Email(message = "Invalid email")
+  private String email;
 }

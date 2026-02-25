@@ -1,6 +1,5 @@
 package com.ompt.Ompt.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -12,11 +11,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class LoginRequestDTO {
-    @NotBlank(message = "email is required")
-    @Email(message = "Invalid email")
-    private String email;
-    @NotBlank(message = "Password is required")
-    private String password;
+  @NotBlank(message = "email is required")
+  @Email(message = "Invalid email")
+  private String email;
+
+  @NotBlank(message = "Password is required")
+  private String password;
 }

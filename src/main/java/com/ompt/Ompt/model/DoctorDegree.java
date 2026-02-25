@@ -11,15 +11,14 @@ import lombok.*;
 @Table(name = "doctor_degrees")
 public class DoctorDegree {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Doctor doctor;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Doctor doctor;
 
-    private String degreeName;
-    private String institution;
-    private Integer yearCompleted;
+  private String degreeName;
+  private String institution;
+  private Integer yearCompleted;
 }
-

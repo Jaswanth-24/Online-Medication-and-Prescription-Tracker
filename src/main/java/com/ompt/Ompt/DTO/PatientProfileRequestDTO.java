@@ -10,21 +10,17 @@ import lombok.Setter;
 @Setter
 public class PatientProfileRequestDTO {
 
-    @NotBlank
-    private String patientName;
+  @NotBlank private String patientName;
 
-    @NotBlank
-    private String gender;
+  @NotBlank private String gender;
 
-    @NotNull(message = "Age is required")
-    private Integer age;
+  @NotNull(message = "Age is required")
+  private Integer age;
 
-    @Pattern(regexp = "\\d{10}")
-    private String phoneNumber;
+  @Pattern(regexp = "\\d{10}")
+  private String phoneNumber;
 
-    @NotBlank
-    private String bloodGroup;
+  @NotBlank private String bloodGroup;
 
-    @NotBlank
-    private String address;
+  @NotBlank private String address;
 }

@@ -10,10 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserMeDTO {
-    private Long id;
-    private String name;
-    private String email;
-    private String role;
-    private Long hospitalId;
-    private String hospitalName;
+  private Long id;
+  private String name;
+  private String email;
+  private String role;
+  private Long hospitalId;
+  private String hospitalName;
 }
