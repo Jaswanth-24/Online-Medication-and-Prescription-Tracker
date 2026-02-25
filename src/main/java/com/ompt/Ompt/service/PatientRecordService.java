@@ -48,9 +48,10 @@ public class PatientRecordService {
 
     if (doctorId != null) {
       Doctor doctor =
-              doctorRepository.findById(doctorId)
-                      .orElseThrow(() ->
-                              new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
+          doctorRepository
+              .findById(doctorId)
+              .orElseThrow(
+                  () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
 
       assignedDoctor = doctor.getUser();
     }
@@ -64,6 +65,7 @@ public class PatientRecordService {
 
     patientRecordRepository.save(record);
   }
+
   public JsonNode getOrCreateRecord(User patient) {
     PatientRecord record =
         patientRecordRepository
@@ -83,6 +85,7 @@ public class PatientRecordService {
 
     return data;
   }
+
   public List<JsonNode> listByHospital(Long hospitalId) {
     return patientRecordRepository.findByUser_Hospital_Id(hospitalId).stream()
         .map(record -> parse(record.getDataJson()))
@@ -91,8 +94,8 @@ public class PatientRecordService {
 
   public List<JsonNode> listByDoctor(User doctor) {
     return patientRecordRepository.findByAssignedDoctorId(doctor.getId()).stream()
-            .map(record -> parse(record.getDataJson()))
-            .toList();
+        .map(record -> parse(record.getDataJson()))
+        .toList();
   }
 
   public JsonNode updatePatientRecord(User patient, JsonNode updatedData) {

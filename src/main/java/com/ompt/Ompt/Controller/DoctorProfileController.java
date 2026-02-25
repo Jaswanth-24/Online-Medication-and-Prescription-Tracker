@@ -21,25 +21,24 @@ public class DoctorProfileController {
 
   @PutMapping
   public ResponseEntity<Void> updateProfile(
-          @RequestBody DoctorProfileUpdateDTO dto,
-          Authentication authentication) {
+      @RequestBody DoctorProfileUpdateDTO dto, Authentication authentication) {
 
     User doctor =
-            userRepository
-                    .findByEmailIgnoreCase(authentication.getName())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        userRepository
+            .findByEmailIgnoreCase(authentication.getName())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
     doctorProfileService.updateProfile(doctor, dto);
     return ResponseEntity.ok().build();
   }
 
   @GetMapping
-  public ResponseEntity<DoctorSelfProfileResponseDTO  > getProfile(Authentication authentication) {
+  public ResponseEntity<DoctorSelfProfileResponseDTO> getProfile(Authentication authentication) {
 
     User doctor =
-            userRepository
-                    .findByEmailIgnoreCase(authentication.getName())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        userRepository
+            .findByEmailIgnoreCase(authentication.getName())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
     return ResponseEntity.ok(doctorProfileService.getProfile(doctor));
   }

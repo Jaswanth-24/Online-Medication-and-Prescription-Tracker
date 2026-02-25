@@ -15,5 +15,4 @@ public interface PatientRecordRepository extends JpaRepository<PatientRecord, Lo
 
   @Query("SELECT p FROM PatientRecord p WHERE p.assignedDoctor.id = :doctorId")
   List<PatientRecord> findByAssignedDoctorId(@Param("doctorId") Long doctorId);
-
 }

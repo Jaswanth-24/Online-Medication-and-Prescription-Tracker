@@ -1,14 +1,10 @@
 package com.ompt.Ompt.DTO;
 
-
-
 import java.time.LocalDate;
-
 import lombok.*;
 
 @Getter
 @Setter
-
 @AllArgsConstructor
 public class DoctorProfileUpdateDTO {
 

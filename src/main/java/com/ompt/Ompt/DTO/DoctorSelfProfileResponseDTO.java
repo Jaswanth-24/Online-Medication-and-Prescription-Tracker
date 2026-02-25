@@ -6,20 +6,20 @@ import lombok.Data;
 @Data
 public class DoctorSelfProfileResponseDTO {
 
-    // From User
-    private String fullName;
-    private String email;
+  // From User
+  private String fullName;
+  private String email;
 
-    // From Doctor
-    private LocalDate dob;
-    private String gender;
-    private String phone;
-    private String address;
-    private String emergencyContact;
+  // From Doctor
+  private LocalDate dob;
+  private String gender;
+  private String phone;
+  private String address;
+  private String emergencyContact;
 
-    private String designation;
-    private Integer yearsOfExperience;
-    private LocalDate dateOfJoining;
+  private String designation;
+  private Integer yearsOfExperience;
+  private LocalDate dateOfJoining;
 
-    private String licenseNumber;
+  private String licenseNumber;
 }

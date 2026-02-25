@@ -5,12 +5,11 @@ import com.ompt.Ompt.DTO.DoctorSelfProfileResponseDTO;
 import com.ompt.Ompt.DTO.PublicDoctorDTO;
 import com.ompt.Ompt.model.*;
 import com.ompt.Ompt.repository.DoctorRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +25,9 @@ public class DoctorProfileService {
     }
 
     Doctor doctor =
-            doctorRepository
-                    .findByUserId(user.getId())
-                    .orElseThrow(() -> new IllegalStateException("Doctor record not found"));
+        doctorRepository
+            .findByUserId(user.getId())
+            .orElseThrow(() -> new IllegalStateException("Doctor record not found"));
 
     // Personal
     doctor.setDob(dto.getDob());
@@ -56,9 +55,9 @@ public class DoctorProfileService {
     }
 
     Doctor doctor =
-            doctorRepository
-                    .findByUserId(user.getId())
-                    .orElseThrow(() -> new IllegalStateException("Doctor record not found"));
+        doctorRepository
+            .findByUserId(user.getId())
+            .orElseThrow(() -> new IllegalStateException("Doctor record not found"));
 
     DoctorSelfProfileResponseDTO dto = new DoctorSelfProfileResponseDTO();
 
@@ -79,34 +78,27 @@ public class DoctorProfileService {
 
     return dto;
   }
+
   public List<PublicDoctorDTO> listPublicDoctors() {
-    return doctorRepository.findAllByProfileCompletedTrue()
-            .stream()
-            .map(this::toPublicDoctorDTO)
-            .toList();
+    return doctorRepository.findAllByProfileCompletedTrue().stream()
+        .map(this::toPublicDoctorDTO)
+        .toList();
   }
 
   public List<PublicDoctorDTO> listPublicDoctorsByHospital(Long hospitalId) {
-    return doctorRepository.findAllByHospital_IdAndProfileCompletedTrue(hospitalId)
-            .stream()
-            .map(this::toPublicDoctorDTO)
-            .toList();
+    return doctorRepository.findAllByHospital_IdAndProfileCompletedTrue(hospitalId).stream()
+        .map(this::toPublicDoctorDTO)
+        .toList();
   }
 
   private PublicDoctorDTO toPublicDoctorDTO(Doctor doctor) {
     return new PublicDoctorDTO(
-            doctor.getId(),
-            doctor.getUser().getName(),
-            doctor.getHospital().getName(),
-            doctor.getDepartment(),
-            doctor.getDesignation(),
-            doctor.getYearsOfExperience(),
-            new PublicDoctorDTO.Performance(
-                    doctor.getRating(),
-                    doctor.getRatingCount()
-            )
-    );
+        doctor.getId(),
+        doctor.getUser().getName(),
+        doctor.getHospital().getName(),
+        doctor.getDepartment(),
+        doctor.getDesignation(),
+        doctor.getYearsOfExperience(),
+        new PublicDoctorDTO.Performance(doctor.getRating(), doctor.getRatingCount()));
   }
-
-
 }

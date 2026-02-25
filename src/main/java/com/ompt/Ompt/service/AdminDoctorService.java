@@ -6,7 +6,6 @@ import com.ompt.Ompt.repository.DoctorDegreeRepository;
 import com.ompt.Ompt.repository.DoctorRepository;
 import com.ompt.Ompt.repository.DoctorSpecializationRepository;
 import com.ompt.Ompt.repository.UserRepository;
-import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +22,11 @@ public class AdminDoctorService {
   private final UserRepository userRepository;
   private final DoctorRepository doctorRepository;
   private final DoctorSpecializationRepository doctorSpecializationRepository;
-  private final DoctorDegreeRepository  doctorDegreeRepository;
+  private final DoctorDegreeRepository doctorDegreeRepository;
   private final EmailService emailService;
   private final PasswordEncoder passwordEncoder;
 
-  //ADMIN creates doctor
+  // ADMIN creates doctor
 
   @Transactional
   public DoctorResponseDTO registerDoctor(DoctorRegisterRequestDTO request, User admin) {
@@ -58,31 +58,19 @@ public class AdminDoctorService {
     Doctor doctor = new Doctor();
     doctor.setUser(user);
     doctor.setHospital(admin.getHospital());
-    doctor.setDepartment(
-            request.getDepartment() == null ? "General" : request.getDepartment()
-    );
+    doctor.setDepartment(request.getDepartment() == null ? "General" : request.getDepartment());
     doctor.setDesignation(request.getDesignation());
     doctor.setEmploymentType(
-            request.getEmploymentType() == null ? "Full-time" : request.getEmploymentType()
-    );
+        request.getEmploymentType() == null ? "Full-time" : request.getEmploymentType());
     doctor.setProfileCompleted(false);
 
     doctorRepository.save(doctor);
 
     // ---- EMAIL ----
-    emailService.sendDoctorWelcomeMail(
-            user.getEmail(),
-            admin.getHospital().getName(),
-            token
-    );
+    emailService.sendDoctorWelcomeMail(user.getEmail(), admin.getHospital().getName(), token);
 
     return new DoctorResponseDTO(
-            doctor.getId(),
-            user.getName(),
-            user.getEmail(),
-            admin.getHospital().getName(),
-            false
-    );
+        doctor.getId(), user.getName(), user.getEmail(), admin.getHospital().getName(), false);
   }
 
   // ADMIN lists doctors
@@ -92,18 +80,16 @@ public class AdminDoctorService {
       throw new AccessDeniedException("Only admin can view doctors");
     }
 
-    return doctorRepository
-            .findAllByUser_Hospital_Id(admin.getHospital().getId())
-            .stream()
-            .map(
-                    doctor ->
-                            new DoctorResponseDTO(
-                                    doctor.getId(),
-                                    doctor.getUser().getName(),
-                                    doctor.getUser().getEmail(),
-                                    admin.getHospital().getName(),
-                                    doctor.isProfileCompleted()))
-            .toList();
+    return doctorRepository.findAllByUser_Hospital_Id(admin.getHospital().getId()).stream()
+        .map(
+            doctor ->
+                new DoctorResponseDTO(
+                    doctor.getId(),
+                    doctor.getUser().getName(),
+                    doctor.getUser().getEmail(),
+                    admin.getHospital().getName(),
+                    doctor.isProfileCompleted()))
+        .toList();
   }
 
   @Transactional(readOnly = true)
@@ -113,7 +99,9 @@ public class AdminDoctorService {
       throw new AccessDeniedException("Only admin can view doctor profile");
     }
 
-    Doctor doctor = doctorRepository.findById(doctorId)
+    Doctor doctor =
+        doctorRepository
+            .findById(doctorId)
             .orElseThrow(() -> new IllegalArgumentException("Doctor not found"));
 
     DoctorProfileResponseDTO dto = new DoctorProfileResponseDTO();
@@ -140,23 +128,20 @@ public class AdminDoctorService {
 
     // -------- Degrees --------
     List<DoctorDegreeDTO> degreeDTOs =
-            doctorDegreeRepository.findByDoctorId(doctor.getId())
-                    .stream()
-                    .map(degree -> new DoctorDegreeDTO(
-                            degree.getDegreeName(),
-                            degree.getInstitution(),
-                            degree.getYearCompleted()
-                    ))
-                    .toList();
+        doctorDegreeRepository.findByDoctorId(doctor.getId()).stream()
+            .map(
+                degree ->
+                    new DoctorDegreeDTO(
+                        degree.getDegreeName(), degree.getInstitution(), degree.getYearCompleted()))
+            .toList();
 
     dto.setDegrees(degreeDTOs);
 
     // -------- Specializations --------
     List<String> specializations =
-            doctorSpecializationRepository.findByDoctorId(doctor.getId())
-                    .stream()
-                    .map(ds -> ds.getSpecialization().getName())
-                    .toList();
+        doctorSpecializationRepository.findByDoctorId(doctor.getId()).stream()
+            .map(ds -> ds.getSpecialization().getName())
+            .toList();
 
     dto.setSpecializations(specializations);
 
