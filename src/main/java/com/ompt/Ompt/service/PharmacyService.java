@@ -2,10 +2,8 @@ package com.ompt.Ompt.service;
 
 import com.ompt.Ompt.DTO.*;
 import com.ompt.Ompt.model.*;
-import com.ompt.Ompt.repository.DeliveryRepository;
-import com.ompt.Ompt.repository.InventoryItemRepository;
-import com.ompt.Ompt.repository.PharmacyRepository;
-import com.ompt.Ompt.repository.UserRepository;
+import com.ompt.Ompt.repository.*;
+
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,10 +16,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class PharmacyService {
 
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder passwordEncoder;
   private final PharmacyRepository pharmacyRepository;
   private final InventoryItemRepository inventoryItemRepository;
   private final DeliveryRepository deliveryRepository;
+  private final MedicineMasterRepository medicineMasterRepository;
 
   public PharmacyProfileDTO getProfile(String email) {
     Pharmacy pharmacy = getPharmacyByEmail(email);
@@ -72,29 +70,36 @@ public class PharmacyService {
     }
 
     return inventoryItemRepository
-        .findByNameIgnoreCaseAndQuantityGreaterThan(medicineName.trim(), 0)
-        .stream()
-        .map(
-            item ->
-                new PharmacyAvailabilityDTO(
-                    item.getId(),
-                    item.getName(),
-                    item.getDosage(),
-                    item.getQuantity(),
-                    item.getPrice(),
-                    item.getPharmacy().getId(),
-                    item.getPharmacy().getPharmacyName(),
-                    item.getPharmacy().getLocation()))
-        .toList();
+            .findByMedicine_NameIgnoreCaseAndQuantityGreaterThan(medicineName.trim(), 0)
+            .stream()
+            .map(item ->
+                    new PharmacyAvailabilityDTO(
+                            item.getId(),
+                            item.getMedicine().getName(),
+                            item.getDosage(),
+                            item.getQuantity(),
+                            item.getPrice(),
+                            item.getPharmacy().getId(),
+                            item.getPharmacy().getPharmacyName(),
+                            item.getPharmacy().getLocation()
+                    )
+            )
+            .toList();
   }
-
   public InventoryItemResponseDTO createInventoryItem(
-      String email, InventoryItemRequestDTO request) {
+          String email, InventoryItemRequestDTO request) {
+
     Pharmacy pharmacy = getPharmacyByEmail(email);
+
+    MedicineMaster medicine =
+            medicineMasterRepository
+                    .findById(request.getMedicineId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.NOT_FOUND, "Medicine not found"));
 
     InventoryItem item = new InventoryItem();
     item.setPharmacy(pharmacy);
-    item.setName(request.getName());
+    item.setMedicine(medicine);
     item.setDosage(request.getDosage());
     item.setQuantity(request.getQuantity());
     item.setPrice(request.getPrice());
@@ -113,7 +118,13 @@ public class PharmacyService {
             .findByIdAndPharmacy(id, pharmacy)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Item not found"));
 
-    item.setName(request.getName());
+    MedicineMaster medicine =
+            medicineMasterRepository
+                    .findById(request.getMedicineId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.NOT_FOUND, "Medicine not found"));
+
+    item.setMedicine(medicine);
     item.setDosage(request.getDosage());
     item.setQuantity(request.getQuantity());
     item.setPrice(request.getPrice());
@@ -201,13 +212,15 @@ public class PharmacyService {
 
   private InventoryItemResponseDTO toInventoryResponse(InventoryItem item) {
     return new InventoryItemResponseDTO(
-        item.getId(),
-        item.getName(),
-        item.getDosage(),
-        item.getQuantity(),
-        item.getPrice(),
-        item.getExpiry(),
-        item.isLowStock());
+            item.getId(),
+            item.getMedicine().getId(),
+            item.getMedicine().getName(),
+            item.getDosage(),
+            item.getQuantity(),
+            item.getPrice(),
+            item.getExpiry(),
+            item.isLowStock()
+    );
   }
 
   private DeliveryResponseDTO toDeliveryResponse(Delivery delivery) {

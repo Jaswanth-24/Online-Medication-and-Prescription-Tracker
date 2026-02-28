@@ -10,20 +10,17 @@ import lombok.Setter;
 @Table(name = "medicine_master")
 public class MedicineMaster {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(nullable = false, length = 150)
-  private String name;
+    @Column(nullable = false)
+    private String name;
 
-  @Column(nullable = false, length = 50)
-  private String strength;
+    private String strength;
+    private String type;
 
-  @Column(nullable = false, length = 50)
-  private String type;
-
-  @Lob
-  @Column(nullable = false)
-  private String defaultScheduleJson;
+    @Lob
+    @Column(nullable = false)
+    private String defaultScheduleJson;
 }

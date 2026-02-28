@@ -1,6 +1,10 @@
 package com.ompt.Ompt.DTO;
 
 import java.time.LocalDate;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -8,18 +12,30 @@ import lombok.*;
 @AllArgsConstructor
 public class DoctorProfileUpdateDTO {
 
-  // Personal
+  ///Personal Details
+  @NotBlank
+  private String name;
+  @Email
+  @NotBlank private String email;
+
+  @NonNull
   private LocalDate dob;
+  @NotBlank
   private String gender;
-  private String phone;
-  private String address;
-  private String emergencyContact;
+  @NotBlank private String phone;
+  @NotBlank private String address;
+  @NotBlank private String emergencyContact;
+
+  @NotBlank private String department;
 
   // Employment
-  private String designation;
+  @NotNull
   private Integer yearsOfExperience;
   private LocalDate dateOfJoining;
+  @NotBlank private String designation;
+  @NotBlank private String employmentType;
 
   // Licensing
-  private String licenseNumber;
+  @NotBlank private String licenseNumber;
+
 }

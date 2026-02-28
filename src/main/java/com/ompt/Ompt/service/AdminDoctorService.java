@@ -57,11 +57,19 @@ public class AdminDoctorService {
     // ---- DOCTOR ----
     Doctor doctor = new Doctor();
     doctor.setUser(user);
+    doctor.setGender(request.getGender());
+    doctor.setPhone(request.getPhone());
+    doctor.setAddress(request.getAddress());
+    doctor.setEmergencyContact(request.getEmergencyContact());
+
     doctor.setHospital(admin.getHospital());
     doctor.setDepartment(request.getDepartment() == null ? "General" : request.getDepartment());
     doctor.setDesignation(request.getDesignation());
     doctor.setEmploymentType(
         request.getEmploymentType() == null ? "Full-time" : request.getEmploymentType());
+    doctor.setLicenseNumber(request.getLicenseNumber());
+    doctor.setYearsOfExperience(request.getYearsOfExperience());
+    doctor.setDateOfJoining(request.getDateOfJoining());
     doctor.setProfileCompleted(false);
 
     doctorRepository.save(doctor);

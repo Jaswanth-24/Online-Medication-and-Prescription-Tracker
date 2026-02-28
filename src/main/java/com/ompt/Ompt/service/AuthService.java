@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +27,7 @@ public class AuthService {
   private final PharmacyRepository pharmacyRepository;
   private final JwtUtil jwtUtil;
 
+  @Transactional
   public void register(RegisterRequestDTO request) {
     String email = request.getEmail().toLowerCase();
 
@@ -97,9 +99,11 @@ public class AuthService {
             .filter(u -> passwordEncoder.matches(token, u.getResetTokenHash()))
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("Invalid or Expired Token"));
+    Doctor doctor=doctorRepository.findByUserId(user.getId()).orElseThrow(() -> new IllegalStateException("Invalid user"));
 
     user.setPassword(passwordEncoder.encode(newPassword));
     user.setStatus(AccountStatus.ACTIVE);
+    doctor.setProfileCompleted(true);
 
     user.setResetTokenHash(null);
     user.setResetTokenExpiry(null);

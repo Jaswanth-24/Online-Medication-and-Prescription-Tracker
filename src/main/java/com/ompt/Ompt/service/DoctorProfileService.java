@@ -30,6 +30,7 @@ public class DoctorProfileService {
             .orElseThrow(() -> new IllegalStateException("Doctor record not found"));
 
     // Personal
+
     doctor.setDob(dto.getDob());
     doctor.setGender(dto.getGender());
     doctor.setPhone(dto.getPhone());
@@ -44,7 +45,6 @@ public class DoctorProfileService {
     // Licensing
     doctor.setLicenseNumber(dto.getLicenseNumber());
 
-    doctor.setProfileCompleted(true);
   }
 
   @Transactional(readOnly = true)
@@ -93,7 +93,7 @@ public class DoctorProfileService {
 
   private PublicDoctorDTO toPublicDoctorDTO(Doctor doctor) {
     return new PublicDoctorDTO(
-        doctor.getId(),
+        doctor.getUser().getId(),
         doctor.getUser().getName(),
         doctor.getHospital().getName(),
         doctor.getDepartment(),

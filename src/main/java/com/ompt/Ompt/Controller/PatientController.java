@@ -2,7 +2,7 @@ package com.ompt.Ompt.Controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.ompt.Ompt.DTO.AssignMedicineRequestDTO;
-import com.ompt.Ompt.DTO.DeliveryUpdateDTO;
+import com.ompt.Ompt.DTO.DeliveryStatusUpdateDTO;
 import com.ompt.Ompt.DTO.DoctorRatingRequestDTO;
 import com.ompt.Ompt.DTO.MedicineStatusUpdateDTO;
 import com.ompt.Ompt.model.Role;
@@ -107,7 +107,7 @@ public class PatientController {
   @PatchMapping("/medicines/{medicineId}/delivery")
   public ResponseEntity<JsonNode> updateDeliveryStatus(
       @PathVariable String medicineId,
-      @Valid @RequestBody DeliveryUpdateDTO request,
+      @Valid @RequestBody DeliveryStatusUpdateDTO request,
       Authentication authentication) {
     User patient =
         userRepository

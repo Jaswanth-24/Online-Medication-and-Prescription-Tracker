@@ -8,29 +8,47 @@ import com.ompt.Ompt.repository.MedicineMasterRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
 public class MedicineMasterService {
 
-  private final MedicineMasterRepository medicineMasterRepository;
-  private final ObjectMapper objectMapper;
+    private final MedicineMasterRepository medicineMasterRepository;
+    private final ObjectMapper objectMapper;
 
-  public List<MedicineMasterDTO> listAll() {
-    return medicineMasterRepository.findAll().stream().map(this::toDto).toList();
-  }
+  /* =========================
+     PUBLIC CATALOG
+     ========================= */
 
-  public MedicineMasterDTO toDto(MedicineMaster medicine) {
-    List<String> schedule = parseSchedule(medicine.getDefaultScheduleJson());
-    return new MedicineMasterDTO(
-        medicine.getId(), medicine.getName(), medicine.getStrength(), medicine.getType(), schedule);
-  }
-
-  private List<String> parseSchedule(String json) {
-    try {
-      return objectMapper.readValue(json, new TypeReference<>() {});
-    } catch (Exception ex) {
-      return List.of();
+    @Transactional(readOnly = true)
+    public List<MedicineMasterDTO> listAll() {
+        return medicineMasterRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
     }
-  }
+
+  /* =========================
+     INTERNAL MAPPER
+     ========================= */
+
+    private MedicineMasterDTO toDto(MedicineMaster entity) {
+        return new MedicineMasterDTO(
+                entity.getId(),
+                entity.getName(),
+                entity.getStrength(),
+                entity.getType(),
+                parseSchedule(entity.getDefaultScheduleJson()));
+    }
+
+    private List<String> parseSchedule(String json) {
+        if (json == null || json.isBlank()) {
+            return List.of();
+        }
+        try {
+            return objectMapper.readValue(json, new TypeReference<List<String>>() {});
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
 }

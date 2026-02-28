@@ -11,7 +11,6 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
 
   Optional<InventoryItem> findByIdAndPharmacy(Long id, Pharmacy pharmacy);
 
-  List<InventoryItem> findByNameIgnoreCaseAndQuantityGreaterThan(String name, int quantity);
-
-  Optional<InventoryItem> findByPharmacy(Pharmacy pharmacy);
+  List<InventoryItem>
+  findByMedicine_NameIgnoreCaseAndQuantityGreaterThan(String name, int quantity);
 }

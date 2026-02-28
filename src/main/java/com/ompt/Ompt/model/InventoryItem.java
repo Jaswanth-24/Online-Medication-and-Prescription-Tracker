@@ -15,12 +15,13 @@ public class InventoryItem {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "pharmacy_id", nullable = false)
-  private Pharmacy pharmacy;
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "medicine_id")
+  private MedicineMaster medicine;
 
-  @Column(nullable = false, length = 150)
-  private String name;
+
+  @ManyToOne(optional = false)
+  private Pharmacy pharmacy;
 
   @Column(length = 100)
   private String dosage;

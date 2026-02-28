@@ -16,8 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InventoryItemRequestDTO {
 
-  @NotBlank(message = "Medicine name is required")
-  private String name;
+  @NotNull
+  private Long medicineId;
 
   private String dosage;
 

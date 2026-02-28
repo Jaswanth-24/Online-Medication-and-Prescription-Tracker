@@ -49,7 +49,7 @@ public class PatientRecordService {
     if (doctorId != null) {
       Doctor doctor =
           doctorRepository
-              .findById(doctorId)
+              .findByUserId(doctorId)
               .orElseThrow(
                   () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
 
@@ -66,25 +66,26 @@ public class PatientRecordService {
     patientRecordRepository.save(record);
   }
 
-  public JsonNode getOrCreateRecord(User patient) {
-    PatientRecord record =
-        patientRecordRepository
-            .findByUser(patient)
-            .orElseGet(() -> createEntityForPatient(patient, null));
-    ObjectNode data = parseObject(record.getDataJson());
+    public JsonNode getOrCreateRecord(User patient) {
+      PatientRecord record =
+          patientRecordRepository
+              .findByUser(patient)
+              .orElseGet(() -> createEntityForPatient(patient, null));
+      ObjectNode data = parseObject(record.getDataJson());
 
-    // 🔑 SYNC doctorAssignedId from DB
-    if (record.getAssignedDoctor() != null) {
-      data.put("doctorAssignedId", record.getAssignedDoctor().getId());
-    } else {
-      data.putNull("doctorAssignedId");
+
+
+      if (record.getAssignedDoctor() != null) {
+        data.put("doctorAssignedId", record.getAssignedDoctor().getId());
+      } else {
+        data.putNull("doctorAssignedId");
+      }
+
+      record.setDataJson(data.toString());
+      patientRecordRepository.save(record);
+
+      return data;
     }
-
-    record.setDataJson(data.toString());
-    patientRecordRepository.save(record);
-
-    return data;
-  }
 
   public List<JsonNode> listByHospital(Long hospitalId) {
     return patientRecordRepository.findByUser_Hospital_Id(hospitalId).stream()
@@ -157,7 +158,7 @@ public class PatientRecordService {
           HttpStatus.BAD_REQUEST, "Selected pharmacy is out of stock");
     }
 
-    if (!inventoryItem.getName().equalsIgnoreCase(request.getName())) {
+    if (!(inventoryItem.getMedicine().getName()).equalsIgnoreCase(request.getName())) {
       throw new ResponseStatusException(
           HttpStatus.BAD_REQUEST, "Selected pharmacy does not carry this medicine");
     }

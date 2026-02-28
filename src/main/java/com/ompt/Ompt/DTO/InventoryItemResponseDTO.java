@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InventoryItemResponseDTO {
   private Long id;
+  private Long medicineId;
   private String name;
   private String dosage;
   private int quantity;
