@@ -109,7 +109,7 @@ public class AdminDoctorService {
 
     Doctor doctor =
         doctorRepository
-            .findById(doctorId)
+            .findByUserId(doctorId)
             .orElseThrow(() -> new IllegalArgumentException("Doctor not found"));
 
     DoctorProfileResponseDTO dto = new DoctorProfileResponseDTO();

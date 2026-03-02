@@ -39,10 +39,9 @@ public class AuthService {
             .findById(request.getHospitalId())
             .orElseThrow(() -> new IllegalArgumentException("Invalid hospital"));
     User doctor =
-        userRepository
-            .findById(request.getDoctorAssignedId())
-            .orElseThrow(() -> new IllegalArgumentException("Invalid doctor assigned"));
-
+            userRepository
+                    .findById(request.getDoctorAssignedId())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid doctor assigned"));
     User user = new User();
     user.setName(request.getName());
     user.setEmail(request.getEmail().toLowerCase());
