@@ -18,7 +18,6 @@ I primarily contributed to the design and development of core modules, including
 ## 🛠️Tech Stack
 
 **🎨 Frontend :**
-
 React.js,
 Redux Toolkit,
 Tailwind CSS,
